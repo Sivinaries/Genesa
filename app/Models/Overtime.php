@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Overtime extends Model
+{
+    use HasFactory;
+    protected $fillable =
+    [
+        'compani_id',
+        'employee_id',
+        'overtime_date',
+        'start_time',
+        'end_time',
+        'total_hours',
+        'reason',
+        'status',
+        'overtime_pay',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
+    }
+}
