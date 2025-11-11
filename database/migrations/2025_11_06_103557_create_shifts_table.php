@@ -16,14 +16,10 @@ return new class extends Migration
             $table->foreignId('compani_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             // Nama shift (misal: Shift Pagi, Shift Malam, Shift Kantor)
-            $table->string('name');
+            $table->foreignId('employee_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             // Jam mulai dan selesai shift
             $table->time('start_time');
             $table->time('end_time');
-            // Hari kerja dalam seminggu (misal: Senin–Jumat)
-            $table->json('working_days')->nullable();
-            // Toleransi keterlambatan (menit)
-            $table->integer('tolerance_minutes')->default(0);
             // Keterangan opsional
             $table->text('description')->nullable();
             $table->timestamps();

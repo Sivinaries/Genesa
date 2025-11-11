@@ -25,7 +25,6 @@ return new class extends Migration
             // Isi catatan
             $table->longText('content');
             // Tanggal catatan dibuat (bisa beda dengan timestamps jika backdate)
-            $table->date('note_date')->nullable();
             $table->timestamps();
         });
     }

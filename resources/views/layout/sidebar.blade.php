@@ -71,13 +71,6 @@
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
                             <a href="">
-                                <h1 class="text-gray-500 hover:text-black text-base font-normal">Organization</h1>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="p-4 mx-2">
-                        <div class="ml-16 md:ml-14">
-                            <a href="">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Report</h1>
                             </a>
                         </div>

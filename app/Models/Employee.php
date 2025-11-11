@@ -25,13 +25,38 @@ class Employee extends Model
         'password',
     ];
 
+    public function compani()
+    {
+        return $this->belongsTo(Compani::class);
+    }
+
     public function branch()
     {
         return $this->belongsTo(Branch::class);
     }
 
-    public function employees()
+    public function attendances()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    public function overtimes()
+    {
+        return $this->hasMany(Overtime::class);
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
     }
 }

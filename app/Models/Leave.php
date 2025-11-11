@@ -19,13 +19,13 @@ class Leave extends Model
         'status',
     ];
 
-    public function user()
+    public function compani()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Compani::class);
     }
 
-    public function branches()
+    public function employee()
     {
-        return $this->hasMany(Branch::class);
+        return $this->belongsTo(Employee::class);
     }
 }
