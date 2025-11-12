@@ -35,7 +35,7 @@
                     <hr class="mx-5 shadow-2xl text-gray-100 rounded-r-xl rounded-l-xl" />
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="">
+                            <a href="{{ route('branch') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Branch</h1>
                             </a>
                         </div>

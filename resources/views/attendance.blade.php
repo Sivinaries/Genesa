@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Branch</title>
+    <title>Attendance</title>
     @include('layout.head')
     <link href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet" />
 </head>
@@ -20,9 +20,9 @@
             <div class='w-full rounded-lg bg-white h-fit mx-auto'>
                 <div class="p-3">
                     <div class="flex justify-between">
-                        <h1 class="font-extrabold text-3xl">Branch</h1>
+                        <h1 class="font-extrabold text-3xl">Attendance</h1>
                         <a class="p-2 px-8 bg-green-500 rounded-lg text-white hover:text-black text-center"
-                            href="{{ route('addbranch') }}">+ Add</a>
+                            href="{{ route('addattendance') }}">+ Add</a>
                     </div>
                 </div>
                 <div class="p-2">
@@ -31,25 +31,21 @@
                             <thead class="w-full">
                                 <th>No</th>
                                 <th>Date</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Address</th>
+                                <th>Category</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
                                     $no = 1;
                                 @endphp
-                                @foreach ($branches as $item)
+                                @foreach ($attendances as $item)
                                     <tr class="border-2">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $item->created_at ?? 'N/A' }}</td>
                                         <td>{{ $item->name ?? 'N/A' }}</td>
-                                        <td>{{ $item->phone ?? 'N/A' }}</td>
-                                        <td>{{ $item->address ?? 'N/A' }}</td>
                                         <td class="flex gap-2">
                                             <div class="w-full">
-                                                <a href="{{ route('editbranch', ['id' => $item->id]) }}">
+                                                <a href="{{ route('editattendance', ['id' => $item->id]) }}">
                                                     <h1
                                                         class="p-2 text-white hover:text-black bg-blue-500 rounded-lg text-center px-4">
                                                         Edit</h1>
@@ -59,7 +55,7 @@
                                                 <form
                                                     class="p-2 text-white hover:text-black bg-red-500 rounded-lg text-center px-4"
                                                     method="post"
-                                                    action="{{ route('delbranch', ['id' => $item->id]) }}">
+                                                    action="{{ route('delattendance', ['id' => $item->id]) }}">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit">Delete</button>

@@ -7,59 +7,59 @@ use Illuminate\Http\Request;
 
 class CompaniController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $companis = Compani::all();
+
+        return view('company', compact('companis'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('addcompany');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'no_telpon' => 'required|string|max:15', // Adjust the validation if needed
+            'ktp' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'atas_nama' => 'required|string|max:255',
+            'bank' => 'required|string|max:255',
+            'no_rek' => 'required|string|max:50',
+            'company' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+        ]);
+
+        $data['user_id'] = $user->id;
+        $data['status'] = 'Settlement';
+
+        if ($request->hasFile('ktp')) {
+            $uploadedKtp = $request->file('ktp');
+            $ktpName = time() . '_' . $uploadedKtp->getClientOriginalName(); // Prefix with timestamp for uniqueness
+            $ktpPath = $uploadedKtp->storeAs('ktp', $ktpName, 'public');
+            $data['ktp'] = $ktpPath; // Path is relative to 'storage/app/public'
+        }
+
+        Compani::create($data);
+
+        return redirect(route('dashboard'))->with('success', 'Store registered successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Compani $compani)
+    public function edit($id) {}
+
+    public function update(Request $request, Store $store)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Compani $compani)
+    public function destroy($id)
     {
-        //
-    }
+        Compani::destroy($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Compani $compani)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Compani $compani)
-    {
-        //
+        return redirect(route('company'))->with('success', 'Company Berhasil Dihapus !');
     }
 }

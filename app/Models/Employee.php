@@ -19,7 +19,6 @@ class Employee extends Model
         'address',
         'position',
         'join_date',
-        'base_salary',
         'status',
         'role',
         'password',

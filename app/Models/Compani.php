@@ -12,9 +12,14 @@ class Compani extends Model
     [
         'user_id',
         'name',
-        'address',
-        'email',
-        'phone',
+        'no_telpon',
+        'ktp',
+        'atas_nama',
+        'bank',
+        'no_rek',
+        'company',
+        'status',
+        'location',
     ];
 
     public function user()

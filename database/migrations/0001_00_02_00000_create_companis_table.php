@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->string('address')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('no_telpon');
+            $table->string('ktp');
+            $table->string('atas_nama');
+            $table->string('bank');
+            $table->string('no_rek');
+            $table->string('company');
+            $table->string('location');
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -4,62 +4,95 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        $userCompany = Auth::user()->compani;
+
+        if (!$userCompany) {
+            return redirect()->route('addcompany');
+        }
+
+        $status = $userCompany->status;
+
+        if ($status !== 'Settlement') {
+            return redirect()->route('login');
+        }
+
+        $cacheKey = 'branches';
+
+        $branches = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
+            return $userCompany->branches;
+        });
+
+        return view('branch', compact('branches'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('addbranch');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Branch::create($data);
+
+        Cache::forget('branches');
+
+        return redirect(route('branch'))->with('success', 'Branch successfully created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Branch $branch)
+    public function edit($id)
     {
-        //
+        $branch = Branch::find($id);
+        return view('editbranch', compact('branch'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Branch $branch)
+    public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $data = $request->only(['name', 'address', 'phone']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Branch::where('id', $id)->update($data);
+
+        Cache::forget('branches');
+
+        return redirect(route('branch'))->with('success', 'Branch successfully updated!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Branch $branch)
+    public function destroy($id)
     {
-        //
-    }
+        Branch::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Branch $branch)
-    {
-        //
+        Cache::forget('branches');
+
+        return redirect(route('branch'))->with('success', 'Branch successfully deleted!');
     }
 }

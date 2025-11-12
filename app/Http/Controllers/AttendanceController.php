@@ -4,62 +4,96 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        $userCompany = Auth::user()->compani;
+
+        if (!$userCompany) {
+            return redirect()->route('addcompany');
+        }
+
+        $status = $userCompany->status;
+
+        if ($status !== 'Settlement') {
+            return redirect()->route('login');
+        }
+
+        $cacheKey = 'attendances';
+
+        $attendances = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
+            return $userCompany->attendances;
+        });
+
+        return view('attendance', compact('attendances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('addattendance');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'employee_id' => 'required',
+            'attendance_date' => 'required',
+            'clock_in' => 'required',
+            'clock_out' => 'required',
+            'status' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Attendance::create($data);
+
+        Cache::forget('attendances');
+
+        return redirect(route('attendance'))->with('success', 'Attendance successfully created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Attendance $attendance)
+    public function edit($id)
     {
-        //
+        $attendance = Attendance::find($id);
+
+        return view('editattendance', compact('attendance'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Attendance $attendance)
+    public function update(Request $request, $id)
     {
-        //
+        $userStore = auth()->user()->store;
+
+        $request->validate([
+            'name' => 'required | unique:categories,name,NULL,id,store_id,' . $userStore->id,
+        ]);
+
+        $data = $request->only(['name']);
+
+        $data['store_id'] = $userStore->id;
+
+        Category::where('id', $id)->update($data);
+
+        Cache::forget('categories');
+
+        return redirect(route('category'))->with('success', 'Category successfully updated!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Attendance $attendance)
+    public function destroy($id)
     {
-        //
-    }
+        Category::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Attendance $attendance)
-    {
-        //
+        Cache::forget('categories');
+
+        return redirect(route('category'))->with('success', 'Category successfully deleted!');
     }
 }

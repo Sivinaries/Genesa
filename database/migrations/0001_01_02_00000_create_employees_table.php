@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('position');
             $table->date('join_date'); // tidak perlu timestamp, karena hanya tanggal
-            $table->integer('base_salary');
             $table->enum('status', ['full_time', 'part_time'])->default('full_time');
             $table->enum('role', ['employee', 'hr', 'admin', 'manager', 'coordinator'])->default('employee');
             $table->string('password');
