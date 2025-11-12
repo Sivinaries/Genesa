@@ -20,7 +20,7 @@
                     <h1 class="font-extrabold text-3xl">Add branch</h1>
                 </div>
                 <div class="p-6">
-                    <form id="categoryForm" class="space-y-3" method="post" action="{{ route('postbranch') }}"
+                    <form id="form" class="space-y-3" method="post" action="{{ route('postbranch') }}"
                         enctype="multipart/form-data">
                         @csrf @method('post')
                         
@@ -52,7 +52,7 @@
         </div>
     </main>
     <script>
-        const form = document.getElementById('categoryForm');
+        const form = document.getElementById('form');
         const submitBtn = document.getElementById('submitBtn');
 
         form.addEventListener('submit', () => {

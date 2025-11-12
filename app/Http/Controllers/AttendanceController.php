@@ -90,9 +90,9 @@ class AttendanceController extends Controller
 
     public function destroy($id)
     {
-        Category::destroy($id);
+        Attendance::destroy($id);
 
-        Cache::forget('categories');
+        Cache::forget('attendances');
 
         return redirect(route('category'))->with('success', 'Category successfully deleted!');
     }

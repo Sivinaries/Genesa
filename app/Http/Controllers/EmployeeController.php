@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class EmployeeController extends Controller
             return redirect('/');
         }
 
-        $userCompany = Auth::user()->company;
+        $userCompany = Auth::user()->compani;
 
         if (!$userCompany) {
             return redirect()->route('addcompany');
@@ -32,46 +33,50 @@ class EmployeeController extends Controller
 
     public function create()
     {
-
-        return view('addemployee');
+        $branch = Branch::select('id', 'name')->get();
+        return view('addemployee', compact('branch'));
     }
 
     public function store(Request $request)
     {
-        $userStore = auth()->user()->store->id;
+        $userCompany = auth()->user()->compani;
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required',
+            'branch_id' => 'required',
+            'email' => 'required',
+            'nik' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'position' => 'required',
+            'join_date' => 'required',
+            'status' => 'required',
+            'role' => 'required',
+            'password' => 'required',
         ]);
 
-        $qrToken = Str::random(32);
+        $data['compani_id'] = $userCompany->id;
 
-        $deviceId = Str::random(16); // Always generates a new 16 character string
+        Employee::create($data);
 
-        $data = array_merge(
-            $data,
-            [
-                'email' => $deviceId . '@device.com', // You can customize the email or use the chair's device_id
-                'password' => bcrypt('123456'), // Set a default password or handle the password field as needed
-                'level' => 'Chair',
-                'qr_token' => $qrToken,
-                'store_id' => $userStore,
-            ]
-        );
+        Cache::forget('employees');
 
-        Chair::create($data);
+        return redirect(route('employee'))->with('success', 'Employee successfully created!');
+    }
 
-        Cache::forget('chairs');
-
-        return redirect('/chair')->with('toast_success', 'Registration successful!');
+    public function edit($id)
+    {
+        $employee = Employee::findOrFail($id);
+        $branch = Branch::select('id', 'name')->get();
+        return view('editemployee', compact('employee', 'branch'));
     }
 
     public function destroy($id)
     {
-        Chair::destroy($id);
+        Employee::destroy($id);
 
-        Cache::forget('chairs');
+        Cache::forget('employees');
 
-        return redirect(route('chair'))->with('success', 'Kursi Berhasil Dihapus !');
+        return redirect(route('employee'))->with('success', 'Employee Berhasil Dihapus !');
     }
 }
