@@ -71,7 +71,34 @@ class EmployeeController extends Controller
         return view('editemployee', compact('employee', 'branch'));
     }
 
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id)
+    {
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'name' => 'required',
+            'branch_id' => 'required',
+            'email' => 'required',
+            'nik' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'position' => 'required',
+            'join_date' => 'required',
+            'status' => 'required',
+            'role' => 'required',
+            'password' => 'required',
+        ]);
+
+        $data = $request->only(['name', 'branch_id', 'email', 'nik', 'phone', 'address', 'position', 'join_date', 'status', 'role', 'password']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Employee::where('id', $id)->update($data);
+
+        Cache::forget('employees');
+
+        return redirect(route('employee'))->with('success', 'Employee successfully updated!');
+    }
 
     public function destroy($id)
     {

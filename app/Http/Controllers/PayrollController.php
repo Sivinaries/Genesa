@@ -73,7 +73,28 @@ class PayrollController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'employee_id' => 'required',
+            'pay_period_start' => 'required',
+            'pay_period_end' => 'required',
+            'basic_salary' => 'required',
+            'allowances' => 'required',
+            'deductions' => 'required',
+            'status' => 'required',
+            'payment_date' => 'required',
+        ]);
+
+        $data = $request->only(['employee_id', 'pay_period_start', 'pay_period_end', 'basic_salary', 'allowances', 'deductions', 'status', 'payment_date']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Payroll::where('id', $id)->update($data);
+
+        Cache::forget('payrolls');
+
+        return redirect(route('payroll'))->with('success', 'Payroll successfully updated!');
     }
 
     public function destroy($id)

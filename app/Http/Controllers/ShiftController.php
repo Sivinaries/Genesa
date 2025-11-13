@@ -70,7 +70,25 @@ class ShiftController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'branch_id' => 'required',
+            'employee_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'description' => 'required',
+        ]);
+
+        $data = $request->only(['branch_id', 'employee_id', 'start_time', 'end_time', 'description']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Shift::where('id', $id)->update($data);
+
+        Cache::forget('shifts');
+
+        return redirect(route('shift'))->with('success', 'Shift successfully updated!');
     }
 
     public function destroy($id)

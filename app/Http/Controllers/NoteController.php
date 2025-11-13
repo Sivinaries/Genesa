@@ -69,7 +69,23 @@ class NoteController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'employee_id' => 'required',
+            'type' => 'required',
+            'content' => 'required',
+        ]);
+
+        $data = $request->only(['employee_id', 'type', 'content']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Note::where('id', $id)->update($data);
+
+        Cache::forget('notes');
+
+        return redirect(route('note'))->with('success', 'Note successfully updated!');
     }
 
     public function destroy($id)

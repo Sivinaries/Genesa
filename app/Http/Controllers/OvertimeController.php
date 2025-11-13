@@ -73,7 +73,28 @@ class OvertimeController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'employee_id' => 'required',
+            'overtime_date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'total_hours' => 'required',
+            'reason' => 'required',
+            'status' => 'required',
+            'overtime_pay' => 'required',
+        ]);
+
+        $data = $request->only(['employee_id', 'overtime_date', 'start_time', 'end_time', 'total_hours', 'reason', 'status', 'overtime_pay']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Overtime::where('id', $id)->update($data);
+
+        Cache::forget('overtimes');
+
+        return redirect(route('overtime'))->with('success', 'Overtime successfully updated!');
     }
 
     public function destroy($id)

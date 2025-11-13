@@ -68,7 +68,29 @@ class LeaveController extends Controller
         return view('editleave', compact('leave'));
     }
 
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id)
+    {
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'employee_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'type' => 'required',
+            'reason' => 'required',
+            'status' => 'required',
+        ]);
+
+        $data = $request->only(['employee_id', 'start_date', 'end_date', 'type', 'reason', 'status']);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Leave::where('id', $id)->update($data);
+
+        Cache::forget('leaves');
+
+        return redirect(route('leave'))->with('success', 'Leave successfully updated!');
+    }
 
     public function destroy($id)
     {
