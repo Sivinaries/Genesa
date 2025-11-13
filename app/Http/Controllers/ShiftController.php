@@ -36,11 +36,6 @@ class ShiftController extends Controller
         return view('shift', compact('shifts'));
     }
 
-    public function create()
-    {
-        return view('addshift');
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -60,12 +55,6 @@ class ShiftController extends Controller
         Cache::forget('shifts');
 
         return redirect(route('shift'))->with('success', 'Shift successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $shift = Shift::find($id);
-        return view('editshift', compact('shift'));
     }
 
     public function update(Request $request, $id)

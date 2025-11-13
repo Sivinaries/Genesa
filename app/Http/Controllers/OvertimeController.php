@@ -36,11 +36,6 @@ class OvertimeController extends Controller
         return view('overtime', compact('overtimes'));
     }
 
-    public function create()
-    {
-        return view('addovertime');
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -63,12 +58,6 @@ class OvertimeController extends Controller
         Cache::forget('overtimes');
 
         return redirect(route('overtime'))->with('success', 'Overtime successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $overtime = Overtime::find($id);
-        return view('editovertime', compact('overtime'));
     }
 
     public function update(Request $request, $id)

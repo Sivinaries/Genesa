@@ -36,11 +36,6 @@ class NoteController extends Controller
         return view('note', compact('notes'));
     }
 
-    public function create()
-    {
-        return view('addnote');
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -59,13 +54,6 @@ class NoteController extends Controller
 
         return redirect(route('note'))->with('success', 'Note successfully created!');
     }
-
-    public function edit($id)
-    {
-        $note = Note::find($id);
-        return view('editnote', compact('note'));
-    }
-
 
     public function update(Request $request, $id)
     {

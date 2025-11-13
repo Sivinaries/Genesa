@@ -28,13 +28,9 @@ class EmployeeController extends Controller
             return $userCompany->employees()->with('compani', 'branch')->get();
         });
 
-        return view('employee', compact('employees'));
-    }
-
-    public function create()
-    {
         $branch = Branch::select('id', 'name')->get();
-        return view('addemployee', compact('branch'));
+
+        return view('employee', compact('employees', 'branch'));
     }
 
     public function store(Request $request)
@@ -62,13 +58,6 @@ class EmployeeController extends Controller
         Cache::forget('employees');
 
         return redirect(route('employee'))->with('success', 'Employee successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $employee = Employee::findOrFail($id);
-        $branch = Branch::select('id', 'name')->get();
-        return view('editemployee', compact('employee', 'branch'));
     }
 
     public function update(Request $request, $id)

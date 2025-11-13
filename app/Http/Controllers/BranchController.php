@@ -36,11 +36,6 @@ class BranchController extends Controller
         return view('branch', compact('branches'));
     }
 
-    public function create()
-    {
-        return view('addbranch');
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -58,12 +53,6 @@ class BranchController extends Controller
         Cache::forget('branches');
 
         return redirect(route('branch'))->with('success', 'Branch successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $branch = Branch::find($id);
-        return view('editbranch', compact('branch'));
     }
 
     public function update(Request $request, $id)
@@ -93,6 +82,6 @@ class BranchController extends Controller
 
         Cache::forget('branches');
 
-        return redirect(route('branch'))->with('success', 'Branch successfully deleted!');
+    return redirect(route('branch'))->with('success', 'Branch successfully deleted!');
     }
 }

@@ -36,11 +36,6 @@ class PayrollController extends Controller
         return view('payroll', compact('payrolls'));
     }
 
-    public function create()
-    {
-        return view('addpayroll');
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -63,12 +58,6 @@ class PayrollController extends Controller
         Cache::forget('payrolls');
 
         return redirect(route('payroll'))->with('success', 'Payroll successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $payroll = Payroll::find($id);
-        return view('editpayroll', compact('payroll'));
     }
 
     public function update(Request $request, $id)

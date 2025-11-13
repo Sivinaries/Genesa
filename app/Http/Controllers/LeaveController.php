@@ -35,10 +35,6 @@ class LeaveController extends Controller
 
         return view('leave', compact('leaves'));
     }
-    public function create()
-    {
-        return view('addleave');
-    }
 
     public function store(Request $request)
     {
@@ -60,12 +56,6 @@ class LeaveController extends Controller
         Cache::forget('leaves');
 
         return redirect(route('leave'))->with('success', 'Leave successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $leave = Leave::find($id);
-        return view('editleave', compact('leave'));
     }
 
     public function update(Request $request, $id)

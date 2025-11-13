@@ -37,13 +37,6 @@ class AttendanceController extends Controller
         return view('attendance', compact('attendances'));
     }
 
-    public function create()
-    {
-
-        $employee = Employee::all();
-        return view('addattendance', compact('employee'));
-    }
-
     public function store(Request $request)
     {
         $userCompany = auth()->user()->compani;
@@ -63,13 +56,6 @@ class AttendanceController extends Controller
         Cache::forget('attendances');
 
         return redirect(route('attendance'))->with('success', 'Attendance successfully created!');
-    }
-
-    public function edit($id)
-    {
-        $attendance = Attendance::find($id);
-
-        return view('editattendance', compact('attendance'));
     }
 
     public function update(Request $request, $id)
