@@ -49,21 +49,21 @@
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="{{ route('employee') }}">
+                            <a href="{{ route('leave') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Leave</h1>
                             </a>
                         </div>
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="{{ route('employee') }}">
+                            <a href="{{ route('overtime') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Overtime</h1>
                             </a>
                         </div>
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="{{ route('employee') }}">
+                            <a href="{{ route('note') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Note</h1>
                             </a>
                         </div>
@@ -77,14 +77,14 @@
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="">
+                            <a href="{{ route('shift') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Shift</h1>
                             </a>
                         </div>
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="">
+                            <a href="{{ route('payroll') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Payroll</h1>
                             </a>
                         </div>

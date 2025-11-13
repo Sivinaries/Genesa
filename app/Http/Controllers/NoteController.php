@@ -33,7 +33,7 @@ class NoteController extends Controller
             return $userCompany->notes()->with('employee')->get();
         });
 
-        return view('attendance', compact('attendances'));
+        return view('note', compact('notes'));
     }
 
     public function create()
