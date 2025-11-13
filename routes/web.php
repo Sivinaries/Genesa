@@ -25,6 +25,7 @@ Route::fallback(function () {
 
 Route::middleware('auth:web')->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+    Route::get('/setting', [PageController::class, 'setting'])->name('setting');
 
     //COMPANY
     Route::get('/company', [CompaniController::class, 'index'])->name('company');

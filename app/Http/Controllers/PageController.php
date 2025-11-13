@@ -10,4 +10,14 @@ class PageController extends Controller
     {
         return view('dashboard');
     }
+
+    public function setting()
+    {
+        return view('setting');
+    }
+
+    public function profil()
+    {
+        return view('profil');
+    }
 }

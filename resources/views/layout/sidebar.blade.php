@@ -91,7 +91,7 @@
                     </li>
                     <hr class="mx-5 shadow-2xl text-gray-100 rounded-r-xl rounded-l-xl" />
                     <li class="p-4 mx-2">
-                        <a class="" href="">
+                        <a class="" href="{{ route('setting') }}">
                             <div class="flex space-x-4">
                                 <div class="bg-sky-600 p-2 rounded-xl">
                                     <i class="material-icons text-white">settings</i>
