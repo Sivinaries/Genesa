@@ -57,7 +57,26 @@ class CompaniController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'no_telpon' => 'required|string|max:15', // Adjust the validation if needed
+            'ktp' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'atas_nama' => 'required|string|max:255',
+            'bank' => 'required|string|max:255',
+            'no_rek' => 'required|string|max:50',
+            'company' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+        ]);
+
+        $data = $request->only(['name','no_telpon','ktp','atas_nama','bank','no_rek','company','location']);
+
+        $data['store_id'] = $userCompany->id;
+
+        Compani::where('id', $id)->update($data);
+
+        return redirect(route('dashboard'))->with('success', 'Company successfully updated!');
     }
 
     public function destroy($id)

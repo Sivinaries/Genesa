@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('basic_salary', 15, 2)->default(0);
             $table->decimal('allowances', 15, 2)->default(0);  // tunjangan
             $table->decimal('deductions', 15, 2)->default(0);  // potongan
-            $table->decimal('net_salary', 15, 2)->default(0);  // gaji bersih
             $table->enum('status', ['pending', 'paid'])->default('pending');
             $table->date('payment_date')->nullable();
             $table->timestamps();

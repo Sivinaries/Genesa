@@ -43,7 +43,23 @@ class ShiftController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'branch_id' => 'required',
+            'employee_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'description' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Shift::create($data);
+
+        Cache::forget('shifts');
+
+        return redirect(route('shift'))->with('success', 'Shift successfully created!');
     }
 
     public function edit($id)

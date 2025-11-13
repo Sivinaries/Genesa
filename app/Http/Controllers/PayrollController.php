@@ -11,7 +11,7 @@ class PayrollController extends Controller
 {
     public function index()
     {
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect('/');
         }
 
@@ -43,12 +43,31 @@ class PayrollController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'employee_id' => 'required',
+            'pay_period_start' => 'required',
+            'pay_period_end' => 'required',
+            'basic_salary' => 'required',
+            'allowances' => 'required',
+            'deductions' => 'required',
+            'status' => 'required',
+            'payment_date' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Payroll::create($data);
+
+        Cache::forget('payrolls');
+
+        return redirect(route('payroll'))->with('success', 'Payroll successfully created!');
     }
 
     public function edit($id)
     {
-         $payroll = Payroll::find($id);
+        $payroll = Payroll::find($id);
         return view('editpayroll', compact('payroll'));
     }
 

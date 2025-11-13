@@ -43,7 +43,21 @@ class NoteController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'employee_id' => 'required',
+            'type' => 'required',
+            'content' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Note::create($data);
+
+        Cache::forget('notes');
+
+        return redirect(route('note'))->with('success', 'Note successfully created!');
     }
 
     public function edit($id)

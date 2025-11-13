@@ -86,7 +86,7 @@ class AttendanceController extends Controller
 
         $data = $request->only(['name']);
 
-        $data['store_id'] = $userCompany->id;
+        $data['compani_id'] = $userCompany->id;
 
         Attendance::where('id', $id)->update($data);
 

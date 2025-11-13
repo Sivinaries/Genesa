@@ -11,7 +11,7 @@ class OvertimeController extends Controller
 {
     public function index()
     {
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect('/');
         }
 
@@ -43,12 +43,31 @@ class OvertimeController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $userCompany = auth()->user()->compani;
+
+        $data = $request->validate([
+            'employee_id' => 'required',
+            'overtime_date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'total_hours' => 'required',
+            'reason' => 'required',
+            'status' => 'required',
+            'overtime_pay' => 'required',
+        ]);
+
+        $data['compani_id'] = $userCompany->id;
+
+        Overtime::create($data);
+
+        Cache::forget('overtimes');
+
+        return redirect(route('overtime'))->with('success', 'Overtime successfully created!');
     }
 
     public function edit($id)
     {
-         $overtime = Overtime::find($id);
+        $overtime = Overtime::find($id);
         return view('editovertime', compact('overtime'));
     }
 

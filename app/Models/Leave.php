@@ -12,9 +12,9 @@ class Leave extends Model
     [
         'compani_id',
         'employee_id',
-        'type',
         'start_date',
         'end_date',
+        'type',
         'reason',
         'status',
     ];
