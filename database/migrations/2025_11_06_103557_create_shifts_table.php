@@ -18,6 +18,8 @@ return new class extends Migration
             // Nama shift (misal: Shift Pagi, Shift Malam, Shift Kantor)
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             // Jam mulai dan selesai shift
+            $table->date('start_shift');
+            $table->date('end_shift');
             $table->time('start_time');
             $table->time('end_time');
             // Keterangan opsional

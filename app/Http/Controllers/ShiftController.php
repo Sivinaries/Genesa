@@ -30,7 +30,7 @@ class ShiftController extends Controller
         $cacheKey = 'shifts';
 
         $shifts = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
-            return $userCompany->shifts()->with('employee')->get();
+            return $userCompany->shifts()->with('employee', 'branch')->get();
         });
 
         return view('shift', compact('shifts'));

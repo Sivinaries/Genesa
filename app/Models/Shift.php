@@ -13,6 +13,8 @@ class Shift extends Model
         'compani_id',
         'branch_id',
         'employee_id',
+        'start_shift',
+        'end_shift',
         'start_time',
         'end_time',
         'description',
@@ -32,5 +34,6 @@ class Shift extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+    
 
 }

@@ -4,102 +4,127 @@
 <head>
     <title>Shift</title>
     @include('layout.head')
-    <link href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet" />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <style>
+        /* Make FullCalendar responsive */
+        @media (max-width: 768px) {
+            .fc-toolbar.fc-header-toolbar {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .fc-toolbar-chunk {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .fc-toolbar-title {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            /* Shrink calendar content for small screens */
+            .fc-daygrid-day-number {
+                font-size: 0.75rem;
+            }
+
+            .fc-event {
+                font-size: 0.7rem;
+                padding: 2px 3px;
+            }
+
+            .fc-col-header-cell-cushion {
+                font-size: 0.7rem;
+                padding: 4px;
+            }
+
+            /* Allow horizontal scroll if needed */
+            #calendar {
+                min-width: 600px;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50">
 
-    <!-- sidenav  -->
     @include('layout.sidebar')
-    <!-- end sidenav -->
+
     <main class="md:ml-64 xl:ml-72 2xl:ml-72">
-        <!-- Navbar -->
         @include('layout.navbar')
-        <!-- end Navbar -->
+
         <div class="p-5">
             <div class='w-full rounded-lg bg-white h-fit mx-auto'>
                 <div class="p-3">
                     <div class="flex justify-between">
-                        <h1 class="font-extrabold text-3xl">Shift</h1>
-                        <a class="p-2 px-8 bg-green-500 rounded-lg text-white hover:text-black text-center"
+                        <h1 class="font-extrabold text-3xl">Shift</h1> <a
+                            class="p-2 px-8 bg-green-500 rounded-lg text-white hover:text-black text-center"
                             href="{{ route('addshift') }}">+ Add</a>
                     </div>
                 </div>
                 <div class="p-2">
                     <div class="overflow-auto">
-                        <table id="myTable" class="bg-gray-50 border-2">
-                            <thead class="w-full">
-                                <th>No</th>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Start</th>
-                                <th>End</th>
-                                <th>Type</th>
-                                <th>Reason</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $no = 1;
-                                @endphp
-                                @foreach ($shifts as $item)
-                                    <tr class="border-2">
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $item->created_at ?? 'N/A' }}</td>
-                                        <td>{{ $item->employee->name ?? 'N/A' }}</td>
-                                        <td>{{ $item->start_date ?? 'N/A' }}</td>
-                                        <td>{{ $item->end_date ?? 'N/A' }}</td>
-                                        <td>{{ $item->type ?? 'N/A' }}</td>
-                                        <td>{{ $item->reason ?? 'N/A' }}</td>
-                                        <td>{{ $item->status ?? 'N/A' }}</td>
-                                        <td class="flex gap-2">
-                                            <div class="w-full">
-                                                <a href="">
-                                                    <h1
-                                                        class="p-2 text-white hover:text-black bg-blue-500 rounded-lg text-center px-4">
-                                                        Edit</h1>
-                                                </a>
-                                            </div>
-                                            <div class="w-full">
-                                                <form
-                                                    class="p-2 text-white hover:text-black bg-red-500 rounded-lg text-center px-4"
-                                                    method="post"
-                                                    action="">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div id="calendar" class="rounded-lg min-w-[320px]"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            let table = new DataTable('#myTable', {
-                columnDefs: [{
-                    targets: 1, // Index of the 'Date' column
-                    render: function(data, type, row) {
-                        // Assuming the date is in 'YYYY-MM-DD HH:MM:SS' format
-                        var date = new Date(data);
-                        return date.toLocaleDateString(); // Format the date as needed
-                    },
-                }, ],
-            });
-        });
-    </script>
-    @include('sweetalert::alert')
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
+        const shifts = @json($shifts);
+
+        // Fungsi untuk membuat warna unik dari string
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const color = Math.floor(Math.abs(Math.sin(hash) * 16777215) % 16777215).toString(16);
+            return '#' + '0'.repeat(6 - color.length) + color;
+        }
+
+        const events = shifts.map(shift => {
+            const employeeName = shift.employee ? shift.employee.name : 'No employee';
+            const color = stringToColor(employeeName);
+
+            return {
+                title: employeeName,
+                start: shift.start_datetime ?? `${shift.start_shift}T${shift.start_time}`,
+                end: shift.end_datetime ?? `${shift.end_shift}T${shift.end_time}`,
+                backgroundColor: color,
+                borderColor: color,
+                extendedProps: {
+                    description: shift.description ?? 'No description',
+                    branch: shift.branch ? shift.branch.name : '-'
+                }
+            };
+        });
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            height: 'auto',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events,
+            eventClick(info) {
+                const desc = info.event.extendedProps.description || 'No description';
+                const branch = info.event.extendedProps.branch || '-';
+                alert(`Shift: ${info.event.title}\nBranch: ${branch}\nNote: ${desc}`);
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+
+        @include('sweetalert::alert')
 </body>
 
 </html>

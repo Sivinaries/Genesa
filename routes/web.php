@@ -44,6 +44,8 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
     Route::get('/addemployee', [EmployeeController::class, 'create'])->name('addemployee');
     Route::post('/postemployee', [EmployeeController::class, 'store'])->name('postemployee');
+    Route::get('/editemployee/{id}', [EmployeeController::class, 'edit'])->name('editemployee');
+    Route::put('/employee/{id}/update', [EmployeeController::class, 'update'])->name('updateemployee');
     Route::delete('/employee/{id}/delete', [EmployeeController::class, 'destroy'])->name('delemployee');
 
     //LEAVE
