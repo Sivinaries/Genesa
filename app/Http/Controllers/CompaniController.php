@@ -51,7 +51,7 @@ class CompaniController extends Controller
 
     public function edit($id) {}
 
-    public function update(Request $request, Store $store)
+    public function update(Request $request, $id)
     {
         //
     }

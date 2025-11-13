@@ -4,62 +4,65 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class NoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+         if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        $userCompany = Auth::user()->compani;
+
+        if (!$userCompany) {
+            return redirect()->route('addcompany');
+        }
+
+        $status = $userCompany->status;
+
+        if ($status !== 'Settlement') {
+            return redirect()->route('login');
+        }
+
+        $cacheKey = 'notes';
+
+        $notes = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
+            return $userCompany->notes()->with('employee')->get();
+        });
+
+        return view('attendance', compact('attendances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('addnote');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Note $note)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Note $note)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Note $note)
+    
+    public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Note $note)
+    public function destroy($id)
     {
-        //
+        Note::destroy($id);
+
+        Cache::forget('notes');
+
+        return redirect(route('note'))->with('success', 'Note successfully deleted!');
     }
 }

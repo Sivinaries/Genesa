@@ -4,62 +4,64 @@ namespace App\Http\Controllers;
 
 use App\Models\Payroll;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PayrollController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+         if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        $userCompany = Auth::user()->compani;
+
+        if (!$userCompany) {
+            return redirect()->route('addcompany');
+        }
+
+        $status = $userCompany->status;
+
+        if ($status !== 'Settlement') {
+            return redirect()->route('login');
+        }
+
+        $cacheKey = 'payrolls';
+
+        $payrolls = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
+            return $userCompany->payrolls()->with('employee')->get();
+        });
+
+        return view('payroll', compact('payrolls'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('addpayroll');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Payroll $payroll)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Payroll $payroll)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Payroll $payroll)
+    public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Payroll $payroll)
+    public function destroy($id)
     {
-        //
+        Payroll::destroy($id);
+
+        Cache::forget('payrolls');
+
+        return redirect(route('payroll'))->with('success', 'Payroll successfully deleted!');
     }
 }

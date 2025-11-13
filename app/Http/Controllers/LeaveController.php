@@ -4,62 +4,63 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class LeaveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-    }
+        if (!Auth::check()) {
+            return redirect('/');
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        $userCompany = Auth::user()->compani;
+
+        if (!$userCompany) {
+            return redirect()->route('addcompany');
+        }
+
+        $status = $userCompany->status;
+
+        if ($status !== 'Settlement') {
+            return redirect()->route('login');
+        }
+
+        $cacheKey = 'leaves';
+
+        $leaves = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
+            return $userCompany->leaves()->with('employee')->get();
+        });
+
+        return view('leave', compact('leaves'));
+    }
     public function create()
     {
-        //
+        return view('addleave');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Leave $leave)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Leave $leave)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Leave $leave)
+    public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Leave $leave)
+    public function destroy($id)
     {
-        //
+        Leave::destroy($id);
+
+        Cache::forget('leaves');
+
+        return redirect(route('leave'))->with('success', 'Leave successfully deleted!');
     }
 }

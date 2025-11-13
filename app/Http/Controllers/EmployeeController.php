@@ -71,6 +71,8 @@ class EmployeeController extends Controller
         return view('editemployee', compact('employee', 'branch'));
     }
 
+    public function update(Request $request, $id) {}
+
     public function destroy($id)
     {
         Employee::destroy($id);

@@ -32,24 +32,30 @@
                                 <th>No</th>
                                 <th>Date</th>
                                 <th>Name</th>
-                                <th>Phone</th>
-                                <th>Address</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Type</th>
+                                <th>Reason</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
                                     $no = 1;
                                 @endphp
-                                @foreach ($branches as $item)
+                                @foreach ($leaves as $item)
                                     <tr class="border-2">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $item->created_at ?? 'N/A' }}</td>
-                                        <td>{{ $item->name ?? 'N/A' }}</td>
-                                        <td>{{ $item->phone ?? 'N/A' }}</td>
-                                        <td>{{ $item->address ?? 'N/A' }}</td>
+                                        <td>{{ $item->employee->name ?? 'N/A' }}</td>
+                                        <td>{{ $item->start_date ?? 'N/A' }}</td>
+                                        <td>{{ $item->end_date ?? 'N/A' }}</td>
+                                        <td>{{ $item->type ?? 'N/A' }}</td>
+                                        <td>{{ $item->reason ?? 'N/A' }}</td>
+                                        <td>{{ $item->status ?? 'N/A' }}</td>
                                         <td class="flex gap-2">
                                             <div class="w-full">
-                                                <a href="{{ route('editbranch', ['id' => $item->id]) }}">
+                                                <a href="">
                                                     <h1
                                                         class="p-2 text-white hover:text-black bg-blue-500 rounded-lg text-center px-4">
                                                         Edit</h1>
@@ -59,7 +65,7 @@
                                                 <form
                                                     class="p-2 text-white hover:text-black bg-red-500 rounded-lg text-center px-4"
                                                     method="post"
-                                                    action="{{ route('delbranch', ['id' => $item->id]) }}">
+                                                    action="">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit">Delete</button>
