@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -30,7 +31,7 @@ class AttendanceController extends Controller
         $cacheKey = 'attendances';
 
         $attendances = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($userCompany) {
-            return $userCompany->attendances;
+            return $userCompany->attendances()->with('employee')->get();
         });
 
         return view('attendance', compact('attendances'));
@@ -38,7 +39,9 @@ class AttendanceController extends Controller
 
     public function create()
     {
-        return view('addattendance');
+
+        $employee = Employee::all();
+        return view('addattendance', compact('employee'));
     }
 
     public function store(Request $request)
@@ -71,21 +74,25 @@ class AttendanceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $userStore = auth()->user()->store;
+        $userCompany = auth()->user()->compani;
 
         $request->validate([
-            'name' => 'required | unique:categories,name,NULL,id,store_id,' . $userStore->id,
+            'employee_id' => 'required',
+            'attendance_date' => 'required',
+            'clock_in' => 'required',
+            'clock_out' => 'required',
+            'status' => 'required',
         ]);
 
         $data = $request->only(['name']);
 
-        $data['store_id'] = $userStore->id;
+        $data['store_id'] = $userCompany->id;
 
-        Category::where('id', $id)->update($data);
+        Attendance::where('id', $id)->update($data);
 
-        Cache::forget('categories');
+        Cache::forget('attendances');
 
-        return redirect(route('category'))->with('success', 'Category successfully updated!');
+        return redirect(route('attendance'))->with('success', 'Attendance successfully updated!');
     }
 
     public function destroy($id)
@@ -94,6 +101,6 @@ class AttendanceController extends Controller
 
         Cache::forget('attendances');
 
-        return redirect(route('category'))->with('success', 'Category successfully deleted!');
+        return redirect(route('attendance'))->with('success', 'Attendance successfully deleted!');
     }
 }

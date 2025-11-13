@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompaniController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -18,10 +19,15 @@ Route::fallback(function () {
 });
 
 Route::middleware('auth:web')->group(function () {
-    Route::get('/dashboard', [Pagecontroller::class, 'dashboard'])->name('dashboard');
-    Route::get('/emplyee', [Pagecontroller::class, 'employee'])->name('employee');
+    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 
-    //COMPANY CONTROLLER
+    //EMPLOYEE
+    Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
+    Route::get('/addemployee', [EmployeeController::class, 'create'])->name('addemployee');
+    Route::post('/postemployee', [EmployeeController::class, 'store'])->name('postemployee');
+    Route::delete('/employee/{id}/delete', [EmployeeController::class, 'destroy'])->name('delemployee');
+
+    //COMPANY
     Route::get('/company', [CompaniController::class, 'index'])->name('company');
     Route::get('/addcompany', [CompaniController::class, 'create'])->name('addcompany');
     Route::post('/postcompany', [CompaniController::class, 'store'])->name('postcompany');

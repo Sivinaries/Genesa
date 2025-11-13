@@ -31,7 +31,10 @@
                             <thead class="w-full">
                                 <th>No</th>
                                 <th>Date</th>
-                                <th>Category</th>
+                                <th>Name</th>
+                                <th>Clock in</th>
+                                <th>Clock out</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -42,7 +45,10 @@
                                     <tr class="border-2">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $item->created_at ?? 'N/A' }}</td>
-                                        <td>{{ $item->name ?? 'N/A' }}</td>
+                                        <td>{{ $item->employee->name ?? 'N/A' }}</td>
+                                        <td>{{ $item->employee->clock_in ?? 'N/A' }}</td>
+                                        <td>{{ $item->employee->clock_out ?? 'N/A' }}</td>
+                                        <td>{{ $item->status ?? 'N/A' }}</td>
                                         <td class="flex gap-2">
                                             <div class="w-full">
                                                 <a href="{{ route('editattendance', ['id' => $item->id]) }}">

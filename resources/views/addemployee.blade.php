@@ -17,31 +17,97 @@
         <div class="p-5">
             <div class="w-full bg-white rounded-lg h-fit mx-auto">
                 <div class="p-3 text-center">
-                    <h1 class="font-extrabold text-3xl">Add branch</h1>
+                    <h1 class="font-extrabold text-3xl">Add employee</h1>
                 </div>
                 <div class="p-6">
-                    <form id="categoryForm" class="space-y-3" method="post" action="{{ route('postbranch') }}"
+                    <form id="categoryForm" class="space-y-3" method="post" action="{{ route('postemployee') }}"
                         enctype="multipart/form-data">
                         @csrf @method('post')
-                        
+
+                        <div class="space-y-2">
+                            <label class="font-semibold text-black">Branch:</label>
+                            <select id="employee" name="employee_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" required>
+                                <option></option>
+                                @foreach ($branch as $bra)
+                                    <option value="{{ $bra->id }}">{{ $bra->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="space-y-2">
                             <label class="font-semibold text-black">Name:</label>
                             <input type="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
                                 id="name" name="name" required />
                         </div>
-                        <div class="space-y-2">
-                            <label class="font-semibold text-black">Phone:</label>
-                            <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
-                            id="phone" name="phone" required />
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Email:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="email" name="email" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Password:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Nik:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="nik" name="nik" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Phone:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Address:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Position:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Join date:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-semibold text-black">Status:</label>
+                                <input type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                    id="phone" name="phone" required />
+                            </div>
+
                         </div>
+
                         <div class="space-y-2">
-                            <label class="font-semibold text-black">Address:</label>
+                            <label class="font-semibold text-black">Role:</label>
                             <input type="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
-                                id="address" name="address" required />
+                                id="phone" name="phone" required />
                         </div>
+
                         <button id="submitBtn" type="submit"
                             class="bg-blue-500 text-white p-4 w-full hover:text-black rounded-lg transition-all">
                             Submit

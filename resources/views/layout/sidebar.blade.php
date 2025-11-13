@@ -49,7 +49,28 @@
                     </li>
                     <li class="p-4 mx-2">
                         <div class="ml-16 md:ml-14">
-                            <a href="">
+                            <a href="{{ route('employee') }}">
+                                <h1 class="text-gray-500 hover:text-black text-base font-normal">Leave</h1>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="p-4 mx-2">
+                        <div class="ml-16 md:ml-14">
+                            <a href="{{ route('employee') }}">
+                                <h1 class="text-gray-500 hover:text-black text-base font-normal">Overtime</h1>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="p-4 mx-2">
+                        <div class="ml-16 md:ml-14">
+                            <a href="{{ route('employee') }}">
+                                <h1 class="text-gray-500 hover:text-black text-base font-normal">Note</h1>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="p-4 mx-2">
+                        <div class="ml-16 md:ml-14">
+                            <a href="{{ route('attendance') }}">
                                 <h1 class="text-gray-500 hover:text-black text-base font-normal">Attendace</h1>
                             </a>
                         </div>
@@ -77,7 +98,7 @@
                     </li>
                     <hr class="mx-5 shadow-2xl text-gray-100 rounded-r-xl rounded-l-xl" />
                     <li class="p-4 mx-2">
-                        <a class="" href="{{ route('dashboard') }}">
+                        <a class="" href="">
                             <div class="flex space-x-4">
                                 <div class="bg-sky-600 p-2 rounded-xl">
                                     <i class="material-icons text-white">settings</i>

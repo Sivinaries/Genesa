@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         $cacheKey = 'employees';
 
         $employees = Cache::remember($cacheKey, 60, function () use ($userCompany) {
-            return $userCompany->employees()->where('level', 'Employee')->get();
+            return $userCompany->employees()->with('compani', 'branch')->get();
         });
 
         return view('employee', compact('employees'));
