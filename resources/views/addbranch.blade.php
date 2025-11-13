@@ -20,10 +20,19 @@
                     <h1 class="font-extrabold text-3xl">Add branch</h1>
                 </div>
                 <div class="p-6">
+                    @if ($errors->any())
+                        <div class="bg-red-200 text-red-800 p-4 rounded-lg mb-4">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form id="form" class="space-y-3" method="post" action="{{ route('postbranch') }}"
                         enctype="multipart/form-data">
                         @csrf @method('post')
-                        
+
                         <div class="space-y-2">
                             <label class="font-semibold text-black">Name:</label>
                             <input type="text"
@@ -33,8 +42,8 @@
                         <div class="space-y-2">
                             <label class="font-semibold text-black">Phone:</label>
                             <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
-                            id="phone" name="phone" required />
+                                class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
+                                id="phone" name="phone" required />
                         </div>
                         <div class="space-y-2">
                             <label class="font-semibold text-black">Address:</label>

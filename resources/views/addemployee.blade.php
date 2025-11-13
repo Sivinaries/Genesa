@@ -20,7 +20,16 @@
                     <h1 class="font-extrabold text-3xl">Add employee</h1>
                 </div>
                 <div class="p-6">
-                    <form id="categoryForm" class="space-y-3" method="post" action="{{ route('postemployee') }}"
+                     @if ($errors->any())
+                        <div class="bg-red-200 text-red-800 p-4 rounded-lg mb-4">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form id="form" class="space-y-3" method="post" action="{{ route('postemployee') }}"
                         enctype="multipart/form-data">
                         @csrf @method('post')
 
@@ -118,7 +127,7 @@
         </div>
     </main>
     <script>
-        const form = document.getElementById('categoryForm');
+        const form = document.getElementById('form');
         const submitBtn = document.getElementById('submitBtn');
 
         form.addEventListener('submit', () => {

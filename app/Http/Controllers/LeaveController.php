@@ -45,9 +45,10 @@ class LeaveController extends Controller
         //
     }
 
-    public function edit(Leave $leave)
+    public function edit($id)
     {
-        //
+         $leave = Leave::find($id);
+        return view('editleave', compact('leave'));
     }
 
     public function update(Request $request, $id)

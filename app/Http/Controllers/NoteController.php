@@ -11,7 +11,7 @@ class NoteController extends Controller
 {
     public function index()
     {
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect('/');
         }
 
@@ -46,12 +46,13 @@ class NoteController extends Controller
         //
     }
 
-    public function edit(Note $note)
+    public function edit($id)
     {
-        //
+        $note = Note::find($id);
+        return view('editnote', compact('note'));
     }
 
-    
+
     public function update(Request $request, $id)
     {
         //

@@ -46,9 +46,10 @@ class PayrollController extends Controller
         //
     }
 
-    public function edit(Payroll $payroll)
+    public function edit($id)
     {
-        //
+         $payroll = Payroll::find($id);
+        return view('editpayroll', compact('payroll'));
     }
 
     public function update(Request $request, $id)

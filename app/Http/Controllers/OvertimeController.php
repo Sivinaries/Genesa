@@ -46,9 +46,10 @@ class OvertimeController extends Controller
         //
     }
 
-    public function edit(Overtime $overtime)
+    public function edit($id)
     {
-        //
+         $overtime = Overtime::find($id);
+        return view('editovertime', compact('overtime'));
     }
 
     public function update(Request $request, $id)

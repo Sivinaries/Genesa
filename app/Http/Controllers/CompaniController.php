@@ -49,7 +49,11 @@ class CompaniController extends Controller
         return redirect(route('dashboard'))->with('success', 'Store registered successfully!');
     }
 
-    public function edit($id) {}
+    public function edit($id)
+    {
+        $company = Compani::find($id);
+        return view('editcompany', compact('company'));
+    }
 
     public function update(Request $request, $id)
     {

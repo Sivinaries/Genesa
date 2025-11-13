@@ -11,7 +11,7 @@ class ShiftController extends Controller
 {
     public function index()
     {
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect('/');
         }
 
@@ -46,9 +46,10 @@ class ShiftController extends Controller
         //
     }
 
-    public function edit(Shift $shift)
+    public function edit($id)
     {
-        //
+        $shift = Shift::find($id);
+        return view('editshift', compact('shift'));
     }
 
     public function update(Request $request, $id)
