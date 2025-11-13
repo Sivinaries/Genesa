@@ -100,6 +100,7 @@
                         @endforeach
                     </select>
                 </div>
+
                 <div class="space-y-2">
                     <label class="font-semibold text-black">Name:</label>
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
@@ -117,21 +118,21 @@
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Password:</label>
-                        <input type="text"
+                        <input type="password"
                             class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
                             name="phone" required />
                     </div>
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Nik:</label>
-                        <input type="text"
+                        <input type="number"
                             class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="nik"
                             name="nik" required />
                     </div>
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Phone:</label>
-                        <input type="text"
+                        <input type="number"
                             class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
                             name="phone" required />
                     </div>
@@ -139,29 +140,29 @@
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Address:</label>
                         <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
-                            name="phone" required />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="address"
+                            name="address" required />
                     </div>
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Position:</label>
                         <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
-                            name="phone" required />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="position"
+                            name="position" required />
                     </div>
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Join date:</label>
-                        <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
-                            name="phone" required />
+                        <input type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="join_date"
+                            name="join_date" required />
                     </div>
 
                     <div class="space-y-2">
                         <label class="font-semibold text-black">Status:</label>
                         <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="phone"
-                            name="phone" required />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full" id="status"
+                            name="status" required />
                     </div>
 
                 </div>
@@ -169,7 +170,7 @@
                 <div class="space-y-2">
                     <label class="font-semibold text-black">Role:</label>
                     <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded-lg w-full"
-                        id="phone" name="phone" required />
+                        id="role" name="role" required />
                 </div>
                 <button type="submit"
                     class="bg-green-500 text-white p-4 w-full rounded-lg hover:bg-green-600 shadow transition">
