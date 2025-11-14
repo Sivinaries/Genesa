@@ -71,6 +71,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
     </main>
 
@@ -121,7 +122,7 @@
             <button id="closeModal"
                 class="absolute top-4 right-4 text-white hover:text-gray-300 bg-red-500 p-1 px-4 rounded-full">✕</button>
 
-                            <h1 class="text-2xl font-semibold mb-8">Edit</h1>
+            <h1 class="text-2xl font-semibold mb-8">Edit</h1>
 
             <form id="editForm" method="post" enctype="multipart/form-data" class="space-y-3">
                 @csrf
@@ -156,6 +157,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
+        
+        // Table
         $(document).ready(function() {
             new DataTable('#myTable', {
                 columnDefs: [{

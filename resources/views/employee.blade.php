@@ -18,7 +18,7 @@
             <!-- Header & Add Button -->
             <div
                 class="flex justify-between items-center bg-gradient-to-l from-blue-100 to-blue-50 p-4 rounded-lg shadow">
-                <h1 class="font-extrabold text-2xl text-black">Employee</h1>
+                <h1 class="font-semibold text-2xl text-black">Employee</h1>
                 <button id="addBtn"
                     class="p-2 px-8 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition">
                     Add

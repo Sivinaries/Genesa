@@ -2,34 +2,28 @@
 <html lang="en">
 
 <head>
-    <title>Setting</title>
+    <title>Payroll</title>
     @include('layout.head')
 </head>
 
 <body class="bg-gray-50">
-
-    <!-- sidenav  -->
     @include('layout.sidebar')
-    <!-- end sidenav -->
-    <main class="md:ml-64 xl:ml-72 2xl:ml-72">
-        <!-- Navbar -->
-        @include('layout.navbar')
-        <!-- end Navbar -->
-        <div class="p-5">
-            <div class='w-full rounded-lg bg-white h-fit mx-auto'>
-                <div class="p-3">
-                    <div class="flex justify-between">
-                        <h1 class="font-extrabold text-3xl">Setting</h1>
-                    </div>
-                </div>
-                <div class="p-2">
-                    <div class="overflow-auto">
 
-                    </div>
-                </div>
+    <main class="md:ml-64 xl:ml-72 2xl:ml-72">
+        @include('layout.navbar')
+        <div class="p-5 space-y-4">
+
+            <!-- Header & Add Button -->
+            <div
+                class="flex justify-between items-center bg-gradient-to-l from-blue-100 to-blue-50 p-4 rounded-lg shadow">
+                <h1 class="font-semibold text-2xl text-black">Setting</h1>
+
             </div>
+
+
         </div>
     </main>
+
     @include('sweetalert::alert')
 
 </body>
